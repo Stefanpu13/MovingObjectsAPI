@@ -20,7 +20,7 @@ namespace MovingObjects
                name: "DefaultApi",
                routeTemplate: "api/{controller}/{action}/{id}",
                defaults: new { id = RouteParameter.Optional },
-               constraints: new { action = @"Register|Login|Load|Delete" }
+               constraints: new { action = @"Register|Login|Load|Delete|Players" }
 
            );
 

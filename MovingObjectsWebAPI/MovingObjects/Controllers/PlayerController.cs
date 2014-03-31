@@ -20,6 +20,22 @@ namespace MovingObjects.Controllers
             this.repository = new PlayerRepository();
         }
 
+        [HttpGet]
+        [ActionName("Players")]
+        public HttpResponseMessage GetPlayers() 
+        {
+            var players = repository.GetAll();
+            var playersModel = (from player in players
+                                select new PlayerModel
+                                {
+                                    Id = player.Id,
+                                    UserName = player.UserName
+                                });
+            var response = Request.CreateResponse(HttpStatusCode.OK, playersModel);
+
+            return response;
+        }
+
         [HttpPost]
         [ActionName("Register")]
         public HttpResponseMessage Register([FromBody] PlayerModel playerModel) 
