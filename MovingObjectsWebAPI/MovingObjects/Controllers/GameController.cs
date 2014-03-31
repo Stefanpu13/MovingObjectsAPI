@@ -21,7 +21,7 @@ namespace MovingObjects.Controllers
 
         // get all games
         [HttpGet]
-        [ActionName("")]
+        [ActionName("All")]
         public IEnumerable<GameModel> GetGames(int playerId)
         {
             var gamesById = 
@@ -61,7 +61,7 @@ namespace MovingObjects.Controllers
 
         [HttpGet]
         [ActionName("Load")]
-        public HttpResponseMessage LoadGame(int id)
+        public HttpResponseMessage LoadGame(int id, int playerId)
         {
 
             throw new NotImplementedException();
@@ -138,23 +138,31 @@ namespace MovingObjects.Controllers
 
         [HttpDelete]
         [ActionName("Delete")]
-        public HttpResponseMessage DeleteGame(int id) 
+        public HttpResponseMessage DeleteGame(int id, int playerId) 
         {
             HttpResponseMessage response = null;
             try
             {
-                var game = this.gameRepository.Delete(id);
-                if (game != null)
+                var player = this.gameRepository.GetPlayer(playerId);
+                if (player != null)
                 {
-                    response = Request.CreateResponse(HttpStatusCode.OK,
-                    "Game with id: " + id + " deleted.");
+                    var game = player.Games.Where(g => g.Id == id);
+                    if (game != null)
+                    {
+                        response = Request.CreateResponse(HttpStatusCode.OK,
+                        "Game with id: " + id + " deleted.");
+                    }
+                    else
+                    {
+                        response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError,
+                            "The game was not found.");
+                    }
                 }
                 else
                 {
                     response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError,
-                        "The game was not found");
+                        "Player not found");
                 }
-
             }
             catch (Exception ex)
             {
@@ -162,8 +170,7 @@ namespace MovingObjects.Controllers
                     ex);
             }
 
-            return response;  
-            
+            return response;
         }
     }
 }
