@@ -11,8 +11,8 @@ namespace MovingObjects
         {
             config.Routes.MapHttpRoute
                 (name: "LoggedInUserApi",
-                routeTemplate: "api/Player/{playerId}/Games/{action}",
-                defaults: new { controller = "Game", action = RouteParameter.Optional },
+                routeTemplate: "api/Player/{playerId}/Games/{action}/{id}",
+                defaults: new { controller = "Game", id = RouteParameter.Optional },
                 constraints: new { playerId = @"\d+" }
                 );
 
@@ -20,7 +20,7 @@ namespace MovingObjects
                name: "DefaultApi",
                routeTemplate: "api/{controller}/{action}/{id}",
                defaults: new { id = RouteParameter.Optional },
-               constraints: new { action = @"Register|Login|Load|Delete|Players" }
+               constraints: new { action = @"Register|Login|Players" }
 
            );
 
