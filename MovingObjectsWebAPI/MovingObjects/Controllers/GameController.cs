@@ -146,9 +146,10 @@ namespace MovingObjects.Controllers
                 var player = this.gameRepository.GetPlayer(playerId);
                 if (player != null)
                 {
-                    var game = player.Games.Where(g => g.Id == id);
+                    var game = player.Games.Where(g => g.Id == id).FirstOrDefault();
                     if (game != null)
                     {
+                        gameRepository.Delete(game.Id);
                         response = Request.CreateResponse(HttpStatusCode.OK,
                         "Game with id: " + id + " deleted.");
                     }
