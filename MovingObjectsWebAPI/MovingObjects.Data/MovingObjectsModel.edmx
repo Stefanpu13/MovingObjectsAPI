@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MovingObjectsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="MovingObjectsModelStoreContainer">
+          <EntitySet Name="Game" EntityType="MovingObjectsModel.Store.Game" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GameObject" EntityType="MovingObjectsModel.Store.GameObject" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GameState" EntityType="MovingObjectsModel.Store.GameState" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Highscore" EntityType="MovingObjectsModel.Store.Highscore" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Player" EntityType="MovingObjectsModel.Store.Player" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Game_Player" Association="MovingObjectsModel.Store.FK_Game_Player">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="Game" EntitySet="Game" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameObject_Game" Association="MovingObjectsModel.Store.FK_GameObject_Game">
+            <End Role="Game" EntitySet="Game" />
+            <End Role="GameObject" EntitySet="GameObject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameState_Game" Association="MovingObjectsModel.Store.FK_GameState_Game">
+            <End Role="Game" EntitySet="Game" />
+            <End Role="GameState" EntitySet="GameState" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Highscore_Player" Association="MovingObjectsModel.Store.FK_Highscore_Player">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="Highscore" EntitySet="Highscore" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PlayerId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameObject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ObjectId" Type="int" Nullable="false" />
+          <Property Name="X" Type="float" Nullable="false" />
+          <Property Name="Y" Type="float" Nullable="false" />
+          <Property Name="XDirection" Type="float" Nullable="false" />
+          <Property Name="YDirection" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Color" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="GameState">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="GameLevel" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="GameDifficulty" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="GameSpeed" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Bonuses" Type="int" Nullable="false" />
+          <Property Name="Restarts" Type="int" Nullable="false" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Highscore">
+          <Key>
+            <PropertyRef Name="GameDifficulty" />
+            <PropertyRef Name="GameSpeed" />
+          </Key>
+          <Property Name="PlayerId" Type="int" Nullable="false" />
+          <Property Name="GameDifficulty" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="GameSpeed" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Score" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Game_Player">
+          <End Role="Player" Type="MovingObjectsModel.Store.Player" Multiplicity="1" />
+          <End Role="Game" Type="MovingObjectsModel.Store.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameObject_Game">
+          <End Role="Game" Type="MovingObjectsModel.Store.Game" Multiplicity="1" />
+          <End Role="GameObject" Type="MovingObjectsModel.Store.GameObject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GameObject">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameState_Game">
+          <End Role="Game" Type="MovingObjectsModel.Store.Game" Multiplicity="1" />
+          <End Role="GameState" Type="MovingObjectsModel.Store.GameState" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GameState">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Highscore_Player">
+          <End Role="Player" Type="MovingObjectsModel.Store.Player" Multiplicity="1" />
+          <End Role="Highscore" Type="MovingObjectsModel.Store.Highscore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Highscore">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MovingObjectsModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MovingObjectsEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Games" EntityType="MovingObjectsModel.Game" />
+          <EntitySet Name="GameStates" EntityType="MovingObjectsModel.GameState" />
+          <EntitySet Name="Highscores" EntityType="MovingObjectsModel.Highscore" />
+          <EntitySet Name="Players" EntityType="MovingObjectsModel.Player" />
+          <AssociationSet Name="FK_Game_Player" Association="MovingObjectsModel.FK_Game_Player">
+            <End Role="Player" EntitySet="Players" />
+            <End Role="Game" EntitySet="Games" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameState_Game" Association="MovingObjectsModel.FK_GameState_Game">
+            <End Role="Game" EntitySet="Games" />
+            <End Role="GameState" EntitySet="GameStates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Highscore_Player" Association="MovingObjectsModel.FK_Highscore_Player">
+            <End Role="Player" EntitySet="Players" />
+            <End Role="Highscore" EntitySet="Highscores" />
+          </AssociationSet>
+          <EntitySet Name="GameObject" EntityType="MovingObjectsModel.GameObject" />
+          <AssociationSet Name="FK_GameObject_Game" Association="MovingObjectsModel.FK_GameObject_Game">
+            <End Role="Game" EntitySet="Games" />
+            <End Role="GameObject" EntitySet="GameObject" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Player" Relationship="MovingObjectsModel.FK_Game_Player" FromRole="Game" ToRole="Player" />
+          <NavigationProperty Name="GameState" Relationship="MovingObjectsModel.FK_GameState_Game" FromRole="Game" ToRole="GameState" />
+          <NavigationProperty Name="GameObject" Relationship="MovingObjectsModel.FK_GameObject_Game" FromRole="Game" ToRole="GameObject" />
+        </EntityType>
+        <EntityType Name="GameState">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="GameLevel" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="GameDifficulty" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="GameSpeed" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="Bonuses" Type="Int32" Nullable="false" />
+          <Property Name="Restarts" Type="Int32" Nullable="false" />
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Game" Relationship="MovingObjectsModel.FK_GameState_Game" FromRole="GameState" ToRole="Game" />
+        </EntityType>
+        <EntityType Name="Highscore">
+          <Key>
+            <PropertyRef Name="GameDifficulty" />
+            <PropertyRef Name="GameSpeed" />
+          </Key>
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <Property Name="GameDifficulty" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="GameSpeed" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Player" Relationship="MovingObjectsModel.FK_Highscore_Player" FromRole="Highscore" ToRole="Player" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Games" Relationship="MovingObjectsModel.FK_Game_Player" FromRole="Player" ToRole="Game" />
+          <NavigationProperty Name="Highscores" Relationship="MovingObjectsModel.FK_Highscore_Player" FromRole="Player" ToRole="Highscore" />
+        </EntityType>
+        <Association Name="FK_Game_Player">
+          <End Role="Player" Type="MovingObjectsModel.Player" Multiplicity="1" />
+          <End Role="Game" Type="MovingObjectsModel.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameState_Game">
+          <End Role="Game" Type="MovingObjectsModel.Game" Multiplicity="1" />
+          <End Role="GameState" Type="MovingObjectsModel.GameState" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GameState">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Highscore_Player">
+          <End Role="Player" Type="MovingObjectsModel.Player" Multiplicity="1" />
+          <End Role="Highscore" Type="MovingObjectsModel.Highscore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Highscore">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GameObject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="ObjectId" Nullable="false" />
+          <Property Type="Double" Name="X" Nullable="false" />
+          <Property Type="Double" Name="Y" Nullable="false" />
+          <Property Type="Double" Name="XDirection" Nullable="false" />
+          <Property Type="String" Name="YDirection" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="GameId" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Color" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Game" Relationship="MovingObjectsModel.FK_GameObject_Game" FromRole="GameObject" ToRole="Game" />
+        </EntityType>
+        <Association Name="FK_GameObject_Game">
+          <End Type="MovingObjectsModel.Game" Role="Game" Multiplicity="1" />
+          <End Type="MovingObjectsModel.GameObject" Role="GameObject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GameObject">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MovingObjectsModelStoreContainer" CdmEntityContainer="MovingObjectsEntities">
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="MovingObjectsModel.Game">
+              <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameStates">
+            <EntityTypeMapping TypeName="MovingObjectsModel.GameState">
+              <MappingFragment StoreEntitySet="GameState">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="GameLevel" ColumnName="GameLevel" />
+                <ScalarProperty Name="GameDifficulty" ColumnName="GameDifficulty" />
+                <ScalarProperty Name="GameSpeed" ColumnName="GameSpeed" />
+                <ScalarProperty Name="Bonuses" ColumnName="Bonuses" />
+                <ScalarProperty Name="Restarts" ColumnName="Restarts" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Highscores">
+            <EntityTypeMapping TypeName="MovingObjectsModel.Highscore">
+              <MappingFragment StoreEntitySet="Highscore">
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="GameDifficulty" ColumnName="GameDifficulty" />
+                <ScalarProperty Name="GameSpeed" ColumnName="GameSpeed" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="MovingObjectsModel.Player">
+              <MappingFragment StoreEntitySet="Player">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameObject">
+            <EntityTypeMapping TypeName="MovingObjectsModel.GameObject">
+              <MappingFragment StoreEntitySet="GameObject">
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="YDirection" ColumnName="YDirection" />
+                <ScalarProperty Name="XDirection" ColumnName="XDirection" />
+                <ScalarProperty Name="Y" ColumnName="Y" />
+                <ScalarProperty Name="X" ColumnName="X" />
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

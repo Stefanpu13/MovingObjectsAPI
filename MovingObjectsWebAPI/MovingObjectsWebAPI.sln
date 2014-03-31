@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovingObjects", "MovingObjects\MovingObjects.csproj", "{16B81E06-C78A-4F9E-8E17-AD988348F3A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovingObjects.Data", "MovingObjects.Data\MovingObjects.Data.csproj", "{778E9B3E-12CF-40B7-A110-966FD30F157D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovingObjects.Repository", "MovingObjects.Repository\MovingObjects.Repository.csproj", "{429B4C93-BCA3-4B18-97F3-05299016644D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationHelpers", "PasswordHelpers\AuthenticationHelpers.csproj", "{7B819B27-1D39-4445-AB0F-5AE707A2206B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16B81E06-C78A-4F9E-8E17-AD988348F3A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B81E06-C78A-4F9E-8E17-AD988348F3A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B81E06-C78A-4F9E-8E17-AD988348F3A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B81E06-C78A-4F9E-8E17-AD988348F3A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{778E9B3E-12CF-40B7-A110-966FD30F157D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{778E9B3E-12CF-40B7-A110-966FD30F157D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{778E9B3E-12CF-40B7-A110-966FD30F157D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{778E9B3E-12CF-40B7-A110-966FD30F157D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429B4C93-BCA3-4B18-97F3-05299016644D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429B4C93-BCA3-4B18-97F3-05299016644D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429B4C93-BCA3-4B18-97F3-05299016644D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429B4C93-BCA3-4B18-97F3-05299016644D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B819B27-1D39-4445-AB0F-5AE707A2206B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B819B27-1D39-4445-AB0F-5AE707A2206B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B819B27-1D39-4445-AB0F-5AE707A2206B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B819B27-1D39-4445-AB0F-5AE707A2206B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
