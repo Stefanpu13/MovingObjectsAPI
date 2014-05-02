@@ -22,6 +22,7 @@ namespace MovingObjects.Controllers
         // get all games
         [HttpGet]
         [ActionName("All")]
+        [Authorize(Roles="User")]
         public IEnumerable<GameModel> GetGames(int playerId)
         {
             var gamesById = 
