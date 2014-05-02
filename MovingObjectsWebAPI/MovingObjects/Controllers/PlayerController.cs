@@ -20,22 +20,22 @@ namespace MovingObjects.Controllers
             this.repository = new PlayerRepository();
         }
 
-        [HttpGet]
-        [ActionName("Players")]
-        [Authorize(Roles="Administrator")]
-        public HttpResponseMessage GetPlayers() 
-        {
-            var players = repository.GetAll();
-            var playersModel = (from player in players
-                                select new PlayerModel
-                                {
-                                    Id = player.Id,
-                                    UserName = player.UserName
-                                });
-            var response = Request.CreateResponse(HttpStatusCode.OK, playersModel);
+        //[HttpGet]
+        //[ActionName("Players")]
+        //[Authorize(Roles="Administrator")]
+        //public HttpResponseMessage GetPlayers() 
+        //{
+        //    var players = repository.GetAll();
+        //    var playersModel = (from player in players
+        //                        select new PlayerModel
+        //                        {
+        //                            Id = player.Id,
+        //                            UserName = player.UserName
+        //                        });
+        //    var response = Request.CreateResponse(HttpStatusCode.OK, playersModel);
 
-            return response;
-        }
+        //    return response;
+        //}
 
         [HttpPost]
         [ActionName("Register")]
@@ -88,7 +88,7 @@ namespace MovingObjects.Controllers
                 response = Request.CreateResponse(HttpStatusCode.Created, player.Id);
                 response.Headers.Location =
                     new Uri(this.Request.RequestUri + "/" + player.Id.ToString());
-
+                response.Headers.Add("access_token", hash);
                 return response;
             }
         }
