@@ -22,6 +22,7 @@ namespace MovingObjects.Controllers
 
         [HttpGet]
         [ActionName("Players")]
+        [Authorize(Roles="Administrator")]
         public HttpResponseMessage GetPlayers() 
         {
             var players = repository.GetAll();
