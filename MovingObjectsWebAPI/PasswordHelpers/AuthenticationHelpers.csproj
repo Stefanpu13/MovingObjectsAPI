@@ -42,6 +42,13 @@
     <Compile Include="PasswordHash.cs" />
     <Compile Include="PasswordValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Token.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MovingObjects.Data\MovingObjects.Data.csproj">
+      <Project>{778e9b3e-12cf-40b7-a110-966fd30f157d}</Project>
+      <Name>MovingObjects.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

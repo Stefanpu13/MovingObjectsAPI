@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using AuthenticationHelpers;
 
 namespace MovingObjects.Controllers
 {
@@ -21,43 +22,65 @@ namespace MovingObjects.Controllers
 
         // get all games
         [HttpGet]
-        [ActionName("All")]
-        [Authorize(Roles="User")]
-        public IEnumerable<GameModel> GetGames(int playerId)
+        [ActionName("All")]        
+        public HttpResponseMessage GetGames(int playerId)
         {
-            var gamesById = 
-                this.gameRepository.GetAll().Where(g => g.PlayerId == playerId);
+            var player = gameRepository.GetPlayer(playerId);
+            HttpResponseMessage response;
 
-            IEnumerable<GameModel> games = (
-                from game in gamesById                 
-                select new GameModel
+            if (player != null)
+            {
+                var gamesById =
+                    this.gameRepository.GetAll().Where(g => g.PlayerId == playerId);
+
+                if (!Token.ValidateToken(
+                    Request.Headers.
+                    FirstOrDefault(h => h.Key == "acces_token").Value.FirstOrDefault(),
+                    player))
                 {
-                    Id = game.Id,
-                    Name = game.Name,
-                    SaveDate = game.Date,
-                    GameObjects = (from gameObject in game.GameObject
-                                   select new GameObjectModel
-                                   {
-                                       Color = gameObject.Color,
-                                       ObjectId = gameObject.ObjectId,
-                                       X = gameObject.X,
-                                       Y = gameObject.Y,
-                                       XDirection = gameObject.XDirection,
-                                       YDirection = gameObject.YDirection
-                                   }).ToList(),
-                    GameState = new GameStateModel 
-                    {
-                        Bonuses = game.GameState.Bonuses,
-                        GameDifficulty = game.GameState.GameDifficulty,
-                        GameLevel = game.GameState.GameLevel,
-                        GameSpeed = game.GameState.GameSpeed,
-                        Restarts = game.GameState.Restarts,
-                        Score = game.GameState.Score
-                    }
+                    response = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                        "Can not see games of other player");
                 }
-                );
 
-            return games;
+                IEnumerable<GameModel> games = (
+                    from game in gamesById
+                    select new GameModel
+                    {
+                        Id = game.Id,
+                        Name = game.Name,
+                        SaveDate = game.Date,
+                        GameObjects = (from gameObject in game.GameObject
+                                       select new GameObjectModel
+                                       {
+                                           Color = gameObject.Color,
+                                           ObjectId = gameObject.ObjectId,
+                                           X = gameObject.X,
+                                           Y = gameObject.Y,
+                                           XDirection = gameObject.XDirection,
+                                           YDirection = gameObject.YDirection
+                                       }).ToList(),
+                        GameState = new GameStateModel
+                        {
+                            Bonuses = game.GameState.Bonuses,
+                            GameDifficulty = game.GameState.GameDifficulty,
+                            GameLevel = game.GameState.GameLevel,
+                            GameSpeed = game.GameState.GameSpeed,
+                            Restarts = game.GameState.Restarts,
+                            Score = game.GameState.Score
+                        }
+                    }
+                    );
+
+                response = Request.CreateResponse(HttpStatusCode.OK, games);
+                
+            }
+            else 
+            {
+                response = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    "PLayer not found.");
+            }
+
+            return response;
         }
 
         [HttpGet]

@@ -88,7 +88,8 @@ namespace MovingObjects.Controllers
                 response = Request.CreateResponse(HttpStatusCode.Created, player.Id);
                 response.Headers.Location =
                     new Uri(this.Request.RequestUri + "/" + player.Id.ToString());
-                response.Headers.Add("access_token", hash);
+
+                response.Headers.Add("access_token", Token.GenerateToken(hash, player.Id));
                 return response;
             }
         }
